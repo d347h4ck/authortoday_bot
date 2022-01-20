@@ -1,0 +1,26 @@
+version: '3'
+services:
+
+  postgres_db:
+    image: postgres:latest
+    environment:   # Set up postgres database name and password
+      POSTGRES_PASSWORD: ohae6XeR9balahWu
+      POSTGRES_DB: author_today_bot
+      POSTGRES_USER: authorbot
+    ports:    # Set up ports exposed for other containers to connect to
+      - 5433:5432
+    networks:
+      - author_today_net
+
+  python_app:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    depends_on:
+      - postgres_db
+    networks:
+      - author_today_net
+
+networks:
+  author_today_net:
+    driver: bridge
